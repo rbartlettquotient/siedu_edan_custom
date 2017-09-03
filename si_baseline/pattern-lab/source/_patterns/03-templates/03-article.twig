@@ -1,0 +1,12 @@
+{% extends "templates-page-1col" %}
+{% block main %}
+    <article class="article">
+        <header class="article-header">
+            <h1>Article Headline Lorem ipsum dolor sit aweofij</h1>
+            {% include "components-byline" %}
+        </header>
+        {% include "regions-article-body" %}
+    </article><!--end .article-->
+    {% include "components-social-share" %}
+    {% include "regions-comment-thread" %}
+{% endblock %}

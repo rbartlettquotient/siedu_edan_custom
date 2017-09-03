@@ -1,0 +1,11 @@
+{% extends "templates-site" %}
+{% block title %}<h1 class="section-title">Our Outdoor Blog</h1>{% endblock %}
+
+{% block main %}
+    {% include "regions-latest-posts" %}
+    {% include "components-pagination" %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include "regions-recent-tweets" %}
+{% endblock %}

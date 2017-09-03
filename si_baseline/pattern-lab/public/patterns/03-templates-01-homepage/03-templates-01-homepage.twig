@@ -1,0 +1,162 @@
+{% extends &quot;templates-page-1col&quot; %}
+{% block preface_right %}
+  {% if alert %}
+    &lt;div class=&quot;l-region--header-preface-left&quot;&gt;
+      {% include &quot;components-alert&quot; with alert %}
+    &lt;/div&gt;
+
+  {% endif %}
+{% endblock %}
+
+{% block hero %}
+
+  &lt;div class=&quot;l-region--hero&quot;&gt;
+    &lt;div class=&quot;flexslider-container horizontal&quot;&gt;
+      &lt;div id=&quot;flexslider-1&quot; class=&quot;flexslider &quot;&gt;
+        &lt;ul class=&quot;slides&quot;&gt;
+          {% for slide in slides %}
+            &lt;li&gt;
+              {% include &quot;components-slide&quot; with slide %}
+            &lt;/li&gt;
+          {% endfor %}
+        &lt;/ul&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;flex-control-nav-container&quot;&gt;
+
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+
+
+{% endblock %}
+
+{% block main %}
+  &lt;div class=&quot;entity entity-paragraphs-item bg-gray bg layout-constrain padding-extra&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;
+      &lt;div class=&quot;g-3col-25-25-50&quot;&gt;
+        &lt;div class=&quot;col-1 col&quot;&gt;
+          &lt;h2&gt;Visit the Smithsonian&lt;/h2&gt;
+          &lt;p&gt;
+            &lt;a href=&quot;#&quot; class=&quot;text-btn&quot;&gt;Plan your visit&lt;/a&gt;&lt;br&gt;
+            &lt;a href=&quot;#&quot; class=&quot;text-btn&quot;&gt;Hours&lt;/a&gt;&lt;br&gt;
+            &lt;a href=&quot;#&quot; class=&quot;text-btn&quot;&gt;Maps &amp; Directions&lt;/a&gt;
+
+          &lt;/p&gt;
+
+        &lt;/div&gt;
+        &lt;div class=&quot;col-2 col&quot;&gt;
+          &lt;h2&gt;IMAX Theaters&lt;/h2&gt;
+          &lt;div class=&quot;field--type-image&quot;&gt;&lt;img src=&quot;../../images/sample/imax.jpg&quot; alt=&quot;Featured IMAX&quot; /&gt;&gt;&lt;/div&gt;
+          &lt;p class=&quot;no-margin&quot;&gt;{% include &quot;base-button-text&quot; with {&quot;button_text&quot;: &quot;See what's playing&quot; } %}&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;col-3 col&quot;&gt;
+          &lt;h2 class=&quot;epsilon&quot;&gt;
+            Things To Do
+          &lt;/h2&gt;
+          &lt;div class=&quot;view layout-2col&quot;&gt;
+            &lt;div class=&quot;views-row col odd&quot;&gt;
+              &lt;div class=&quot;field-content&quot;&gt;
+                &lt;a href=&quot;{{ url }}&quot;&gt;{{ headline.long }}&lt;/a&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;field-content&quot;&gt;
+                {{ month.short }} {{ day.long }}, {{ year.long }} {{ hour.short }}:{{ minute.long }} {{ hour.ampm }}
+              &lt;/div&gt;
+              &lt;div class=&quot;field-content&quot;&gt;
+                National Museum of American History
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;views-row col even&quot;&gt;
+              &lt;div class=&quot;field-content&quot;&gt;
+                &lt;a href=&quot;{{ url }}&quot;&gt;{{ headline.medium }}&lt;/a&gt;
+              &lt;/div&gt;
+
+              &lt;div class=&quot;field-content&quot;&gt;
+                Hirshorn Museum and Sculpture Garden
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;view-footer right clear-l&quot;&gt;
+              {% include &quot;base-button-text&quot; with {'button_text': 'View Calendar of Events'} %}
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+  &lt;div class=&quot;entity entity-paragraphs-item layout-constrain&quot;&gt;
+    &lt;div class=&quot;section-title border&quot;&gt;&lt;h2&gt;Explore&lt;/h2&gt;&lt;/div&gt;
+    &lt;div class=&quot;content&quot;&gt;
+      &lt;div class=&quot;explore-buttons&quot;&gt;
+        &lt;a href=&quot;{{ url }}&quot; class=&quot;btn-large btn purple&quot;&gt;Art &amp; Design&lt;/a&gt;
+        &lt;a href=&quot;{{ url }}&quot; class=&quot;btn-large btn orange&quot;&gt;History &amp; Culture&lt;/a&gt;
+        &lt;a href=&quot;{{ url }}&quot; class=&quot;btn-large btn green&quot;&gt;Science &amp; Technology&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;entity entity-paragraphs-item layout-constrain&quot;&gt;
+
+    &lt;div class=&quot;content&quot;&gt;
+
+      &lt;div class=&quot;g-4col&quot;&gt;
+        {% for content in teasers %}
+          &lt;div class=&quot;col {{ loop.index }}&quot;&gt;
+              {% if teaser_long %}
+                {% include &quot;components-teaser-long&quot; with content %}
+              {% else %}
+                {% include &quot;components-teaser-short&quot; with content %}
+              {% endif %}
+
+          &lt;/div&gt;
+        {% endfor %}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;entity entity-paragraphs-item bg-gray bg layout-constrain padding-extra&quot;&gt;
+    &lt;div class=&quot;section-title&quot;&gt;&lt;h2&gt;Support the Smithsonian&lt;/h2&gt;&lt;/div&gt;
+    &lt;div class=&quot;content&quot;&gt;
+      &lt;div class=&quot;layout-4col align-center&quot;&gt;
+        &lt;div class=&quot;col&quot;&gt;
+          {% include &quot;base-circle&quot; %}
+          &lt;h3&gt;Donate&lt;/h3&gt;
+          &lt;p&gt;Your Gift Makes Wonders Happen. Consider making a monthly gift to fund our exhibitions, research and programs.&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;col&quot;&gt;
+          {% include &quot;base-circle&quot; %}
+          &lt;h3&gt;Campaign&lt;/h3&gt;
+          &lt;p&gt;The Campaign is building a Smithsonian for Today, Tomorrow and Forever.&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;col&quot;&gt;
+          {% include &quot;base-circle&quot; %}
+          &lt;h3&gt;Join&lt;/h3&gt;
+          &lt;p&gt;Every membership provides the Smithsonian with the philanthropic support we need to thrive.&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;col&quot;&gt;
+          {% include &quot;base-circle&quot; %}
+          &lt;h3&gt;Shop&lt;/h3&gt;
+          &lt;p&gt;Your purchase helps the Smithsonian bring exciting learning experiences to everyone!&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;entity entity-paragraphs-item layout-constrain&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;
+      &lt;div class=&quot;layout-4col&quot;&gt;
+        &lt;div class=&quot;col&quot;&gt;
+          {% include &quot;base-rectangle&quot; %}
+        &lt;/div&gt;
+        &lt;div class=&quot;col&quot;&gt;
+          {% include &quot;base-rectangle&quot; %}
+        &lt;/div&gt;
+        &lt;div class=&quot;col&quot;&gt;
+          {% include &quot;base-rectangle&quot; %}
+        &lt;/div&gt;
+        &lt;div class=&quot;col&quot;&gt;
+          {% include &quot;base-rectangle&quot; %}
+        &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+{% endblock %}
+

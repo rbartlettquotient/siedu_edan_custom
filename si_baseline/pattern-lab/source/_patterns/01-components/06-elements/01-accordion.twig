@@ -1,0 +1,16 @@
+<div class="si-tabs accordion-tab" id="si-field-collection-tabs-2">
+	{% for tab in accordion %}
+		<div class="panel">
+			<h3 class="panel-heading" role="tab">
+				<a href="#tab-{{ loop.index }}" class="collapsed" role="button" data-toggle="collapse"  aria-expanded="false" aria-controls="si-field-collection-tabs-1050479314-0">
+					{{ tab.title }}
+				</a>
+			</h3>
+			<div id="tab-{{ loop.index }}" class="tab-pane panel-collapse collapse" aria-expanded="false">
+				{{ tab.content }}
+			</div>
+
+		</div>
+	{% endfor %}
+</div>
+

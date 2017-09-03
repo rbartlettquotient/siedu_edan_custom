@@ -1,0 +1,195 @@
+/*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */
+/*------------------------------------*\
+    $RESET
+\*------------------------------------*/
+/* Border-Box http:/paulirish.com/2012/box-sizing-border-box-ftw/ */
+/* line 6, ../sass/variables/_reset.scss */
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* line 11, ../sass/variables/_reset.scss */
+html, body, div, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, ol, ul, li, form, legend, label, table, header, footer, nav, section, figure {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 15, ../sass/variables/_reset.scss */
+header, footer, nav, section, article, hgroup, figure {
+  display: block;
+}
+
+/* Rem Unit font sizes with relative fallback http:/seesparkbox.com/foundry/scss_rem_mixin_now_with_a_better_fallback
+	Usage: @include font-size(1, large);
+*/
+/* CSS Transition
+	Usage: @include transition(width,0.3s,ease-out);
+ */
+@media print {
+  /* line 16, ../sass/print.scss */
+  *,
+  *:before,
+  *:after {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* line 25, ../sass/print.scss */
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  /* line 45, ../sass/print.scss */
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+
+  /* line 51, ../sass/print.scss */
+  thead {
+    display: table-header-group;
+  }
+
+  /* line 55, ../sass/print.scss */
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+
+  /* line 60, ../sass/print.scss */
+  img {
+    max-width: 100% !important;
+  }
+
+  /* line 64, ../sass/print.scss */
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* line 71, ../sass/print.scss */
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+
+  /* line 80, ../sass/print.scss */
+  select {
+    background: #fff !important;
+  }
+
+  /* line 85, ../sass/print.scss */
+  .navbar,
+  .side-nav,
+  header,
+  footer {
+    display: none;
+  }
+
+  /* line 93, ../sass/print.scss */
+  .btn > .caret,
+  .dropup > .btn > .caret {
+    border-top-color: #000 !important;
+  }
+
+  /* line 97, ../sass/print.scss */
+  .label {
+    border: 1px solid #000;
+  }
+
+  /* line 101, ../sass/print.scss */
+  .table {
+    border-collapse: collapse !important;
+  }
+  /* line 104, ../sass/print.scss */
+  .table td,
+  .table th {
+    background-color: #fff !important;
+  }
+
+  /* line 110, ../sass/print.scss */
+  .table-bordered th,
+  .table-bordered td {
+    border: 1px solid #ddd !important;
+  }
+
+  /* line 118, ../sass/print.scss */
+  .masonry-grid {
+    height: auto !important;
+    *zoom: 1;
+    display: -webkit-flex;
+    -webkit-flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  /* line 15, ../sass/mixins/_clearfix.scss */
+  .masonry-grid:before, .masonry-grid:after {
+    content: " ";
+    display: table;
+    line-height: 0;
+  }
+  /* line 21, ../sass/mixins/_clearfix.scss */
+  .masonry-grid:after {
+    clear: both;
+  }
+  /* line 121, ../sass/print.scss */
+  .masonry-grid:before, .masonry-grid:after {
+    -webkit-flex-basis: 0;
+    flex-basis: 0;
+    order: 1;
+  }
+
+  /* line 132, ../sass/print.scss */
+  .grid-item {
+    *zoom: 1;
+    -webkit-flex: 1 0 auto;
+    flex: 1 0 auto;
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    border: 1px solid #8e97a0 !important;
+    margin-bottom: 2%;
+    padding: 12px;
+    float: left;
+    width: 32%;
+    margin-left: 2%;
+  }
+  /* line 15, ../sass/mixins/_clearfix.scss */
+  .grid-item:before, .grid-item:after {
+    content: " ";
+    display: table;
+    line-height: 0;
+  }
+  /* line 21, ../sass/mixins/_clearfix.scss */
+  .grid-item:after {
+    clear: both;
+  }
+  /* line 144, ../sass/print.scss */
+  .grid-item:nth-child(3n+1) {
+    margin-left: 0;
+    clear: left;
+  }
+  /* line 148, ../sass/print.scss */
+  .grid-item img {
+    width: 25% !important;
+    height: auto !important;
+    float: left;
+    margin-right: 5%;
+  }
+  /* line 154, ../sass/print.scss */
+  .grid-item .b-text-wrapper {
+    padding: 0;
+    width: 70%;
+    float: right;
+  }
+}
+
+/*# sourceMappingURL=print.css.map */

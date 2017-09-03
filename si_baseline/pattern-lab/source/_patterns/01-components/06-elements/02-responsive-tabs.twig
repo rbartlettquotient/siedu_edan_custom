@@ -1,0 +1,23 @@
+<div class="si-tabs responsive-tab" id="si-field-collection-tabs-2">
+	<ul>
+		{% for tab in tabs %}
+			<li tabmode="responsive_tab" class="tab-title">
+				<a href="#tab-{{ loop.index }}">
+					{{ tab.title }}
+				</a>
+			</li>
+		{% endfor %}
+	</ul>
+	<div class="tab-wrapper">
+		{% for tab in tabs %}
+
+				<div id="tab-{{ loop.index }}" class="tab-pane">
+					{{ tab.content }}
+				</div>
+
+			</div>
+		{% endfor %}
+	</div>
+
+</div>
+

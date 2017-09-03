@@ -1,0 +1,42 @@
+/*------------------------------------*\
+    $BUTTONS
+\*------------------------------------*/
+.btn {
+		@include button;
+		// ($color, $background, $border, $gradient, $hover
+		//@include button_style(white, $gray-alt, false, false, $blue);
+		//@include button_size($space-quater, $space-quater, $font-size-small, $line-height-small);
+		text-transform: uppercase;
+		letter-spacing: .1px;
+		@include link-colors(white, white, white, white, white);
+		&.blue {
+			@include button($blue, white, $orange);
+			@include link-colors(white, white, white, white, white);
+		}
+		&.orange {
+			@include button($orange, white, $blue);
+			@include link-colors(white, white, white, white, white);
+		}
+	&.purple {
+		@include button($purple, white, $green);
+		@include link-colors(white, white, white, white, white);
+	}
+	&.green {
+		@include button($green, white, $purple);
+		@include link-colors(white, white, white, white, white);
+	}
+}
+
+.btn-small {
+	padding: $pad-half;
+}
+
+.btn-large {
+	font-size: $font-size-h5;
+	font-weight: normal;
+}
+
+
+.text-btn {
+	font-style: italic;
+}

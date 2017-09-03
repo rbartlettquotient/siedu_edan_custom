@@ -1,0 +1,17 @@
+{% extends &quot;templates-page-2col&quot; %}
+{% block main %}
+    &lt;article class=&quot;article&quot;&gt;
+        &lt;header class=&quot;article-header&quot;&gt;
+            &lt;h1&gt;Article Headline Lorem ipsum dolor sit aweofij&lt;/h1&gt;
+            {% include &quot;components-byline&quot; %}
+        &lt;/header&gt;
+        {% include &quot;regions-article-body&quot; %}
+    &lt;/article&gt;&lt;!--end .article--&gt;
+    {% include &quot;components-social-share&quot; %}
+    {% include &quot;regions-comment-thread&quot; %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include &quot;regions-related-posts&quot; %}
+    {% include &quot;regions-recent-tweets&quot; %}
+{% endblock %}

@@ -1,0 +1,13 @@
+
+&lt;a href=&quot;{{ url }}&quot;&gt;
+  &lt;div class=&quot;field--type-image&quot;&gt;&lt;img src=&quot;{{ img.slideshow.src }}&quot; alt=&quot;{{ img.slideshow.alt }}&quot; class=&quot;image--slide&quot;/&gt;&lt;/div&gt;
+  &lt;div class=&quot;caption&quot;&gt;
+
+      {% if preface %}
+          &lt;div class=&quot;preface&quot;&gt;{{ preface }}&lt;/div&gt;
+      {% endif %}
+      &lt;h3 class=&quot;slide-title&quot;&gt;{{ headline.short }}       &lt;/h3&gt;
+      &lt;p&gt;{{ excerpt.short }}&lt;/p&gt;
+
+  &lt;/div&gt;
+&lt;/a&gt;

@@ -1,0 +1,15 @@
+{% extends &quot;templates-site&quot; %}
+{% block content %}
+&lt;div class=&quot;two-col-left panel-display panel-display--two-col-aside cf&quot;&gt;
+    &lt;div class=&quot;has-sidebar-first l-region--main-content&quot;&gt;
+        {% block main %}
+            &lt;p&gt;Content Placeholder&lt;/p&gt;
+        {% endblock %}
+    &lt;/div&gt;
+    &lt;aside class=&quot; l-region--left-aside&quot;&gt;
+        {% block sidebar %}
+            &lt;h3&gt;Sidebar&lt;/h3&gt;
+        {% endblock %}
+    &lt;/aside&gt;
+&lt;/div&gt;
+{% endblock %}

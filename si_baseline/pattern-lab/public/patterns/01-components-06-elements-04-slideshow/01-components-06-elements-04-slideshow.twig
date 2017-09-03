@@ -1,0 +1,28 @@
+&lt;div class=&quot;flexslider-container horizontal&quot;&gt;
+    &lt;div id=&quot;flexslider-1&quot; class=&quot;flexslider &quot;&gt;
+        &lt;ul class=&quot;slides&quot;&gt;
+            {% for slide in slider %}
+                &lt;li&gt;
+                    &lt;a href=&quot;{{ url }}&quot;&gt;
+                        &lt;img src=&quot;{{ slide.src }}&quot; alt=&quot;slide image&quot; class=&quot;image-slide&quot;&gt;
+
+                        &lt;div class=&quot;caption&quot;&gt;
+
+                            {% if slide.preface|length &gt; 0 %}
+                                &lt;div class=&quot;preface&quot;&gt;{{ slide.preface }}&lt;/div&gt;
+                            {% endif %}
+                            &lt;h3 class=&quot;slide-title&quot;&gt;{{ slide.title }}       &lt;/h3&gt;
+                            &lt;p&gt;{{ slide.caption }}&lt;/p&gt;
+
+
+                        &lt;/div&gt;
+                    &lt;/a&gt;
+                &lt;/li&gt;
+            {% endfor %}
+        &lt;/ul&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;flex-control-nav-container&quot;&gt;
+
+    &lt;/div&gt;
+&lt;/div&gt;

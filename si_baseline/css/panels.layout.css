@@ -1,0 +1,519 @@
+/*------------------------------------*\
+    $RESET
+\*------------------------------------*/
+/* Border-Box http:/paulirish.com/2012/box-sizing-border-box-ftw/ */
+/* line 6, ../sass/variables/_reset.scss */
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* line 11, ../sass/variables/_reset.scss */
+html, body, div, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, ol, ul, li, form, legend, label, table, header, footer, nav, section, figure {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 15, ../sass/variables/_reset.scss */
+header, footer, nav, section, article, hgroup, figure {
+  display: block;
+}
+
+/* line 26, ../sass/mixins/_clearfix.scss */
+.cf, .clearfix {
+  *zoom: 1;
+}
+/* line 15, ../sass/mixins/_clearfix.scss */
+.cf:before, .clearfix:before, .cf:after, .clearfix:after {
+  content: " ";
+  display: table;
+  line-height: 0;
+}
+/* line 21, ../sass/mixins/_clearfix.scss */
+.cf:after, .clearfix:after {
+  clear: both;
+}
+
+/* Rem Unit font sizes with relative fallback http:/seesparkbox.com/foundry/scss_rem_mixin_now_with_a_better_fallback
+	Usage: @include font-size(1, large);
+*/
+/* CSS Transition
+	Usage: @include transition(width,0.3s,ease-out);
+ */
+/* line 2, ../sass/layouts/_00-layout.scss */
+.l-container,
+.layout-constrain > .content,
+.layout-constrain .group-header .content,
+.page-user .l-content-wrapper {
+  width: 96%;
+  max-width: 1280px;
+  margin: 0 auto;
+  *zoom: 1;
+}
+/* line 15, ../sass/mixins/_clearfix.scss */
+.l-container:before, .l-container:after,
+.layout-constrain > .content:before,
+.layout-constrain > .content:after,
+.layout-constrain .group-header .content:before,
+.layout-constrain .group-header .content:after,
+.page-user .l-content-wrapper:before,
+.page-user .l-content-wrapper:after {
+  content: " ";
+  display: table;
+  line-height: 0;
+}
+/* line 21, ../sass/mixins/_clearfix.scss */
+.l-container:after,
+.layout-constrain > .content:after,
+.layout-constrain .group-header .content:after,
+.page-user .l-content-wrapper:after {
+  clear: both;
+}
+
+/* line 9, ../sass/layouts/_00-layout.scss */
+.l-container .l-container,
+.l-container .layout-constrain > .content {
+  max-width: 100%;
+  width: 100%;
+  margin: auto;
+}
+
+/* line 16, ../sass/layouts/_00-layout.scss */
+.node-type-imax-page .l-container .layout-constrain > .content {
+  width: 96%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* line 19, ../sass/layouts/_00-layout.scss */
+.page-user .l-content-wrapper {
+  margin-top: 3em;
+}
+
+/* line 22, ../sass/layouts/_00-layout.scss */
+.l-container-wide {
+  *zoom: 1;
+  width: 1920px;
+  max-width: 96%;
+  margin: 0 auto;
+}
+/* line 15, ../sass/mixins/_clearfix.scss */
+.l-container-wide:before, .l-container-wide:after {
+  content: " ";
+  display: table;
+  line-height: 0;
+}
+/* line 21, ../sass/mixins/_clearfix.scss */
+.l-container-wide:after {
+  clear: both;
+}
+
+/* line 29, ../sass/layouts/_00-layout.scss */
+.layout-constrain .content .content {
+  max-width: 100%;
+}
+
+/* line 32, ../sass/layouts/_00-layout.scss */
+.padding {
+  padding: 1em 0;
+}
+
+/* line 36, ../sass/layouts/_00-layout.scss */
+.padding-all {
+  padding: 1em;
+}
+
+/* line 39, ../sass/layouts/_00-layout.scss */
+.padding-extra {
+  padding: 3em 0;
+}
+
+/* line 42, ../sass/layouts/_00-layout.scss */
+.padding-left {
+  padding-left: 1em;
+}
+
+/* line 45, ../sass/layouts/_00-layout.scss */
+.padding-right {
+  padding-right: 1em;
+}
+
+/* line 49, ../sass/layouts/_00-layout.scss */
+.spacing {
+  margin: 2.25em auto;
+}
+
+/* line 53, ../sass/layouts/_00-layout.scss */
+.spacing-half {
+  margin: 0.75em auto;
+}
+
+/* line 56, ../sass/layouts/_00-layout.scss */
+.spacing-top {
+  margin-top: 2.25em;
+}
+
+/* line 60, ../sass/layouts/_00-layout.scss */
+.spacing-bottom {
+  margin-bottom: 2.25em;
+}
+
+/* line 64, ../sass/layouts/_00-layout.scss */
+.spacing-extra {
+  margin: 3em auto;
+}
+
+/* line 68, ../sass/layouts/_00-layout.scss */
+.no-spacing {
+  margin: 0 auto;
+}
+
+/* line 72, ../sass/layouts/_00-layout.scss */
+.no-padding {
+  padding: 0;
+}
+
+/* line 76, ../sass/layouts/_00-layout.scss */
+p.no-spacing {
+  margin: 1.5em 0 0;
+}
+
+/* line 96, ../sass/layouts/_00-layout.scss */
+.ds-3col-stacked-equal > .group-left,
+.ds-3col-stacked-equal > .group-middle,
+.ds-3col-stacked-equal > .group-right {
+  float: none;
+  width: 100%;
+}
+
+@media (min-width: 620px) {
+  /* line 107, ../sass/layouts/_00-layout.scss */
+  .padding-sm {
+    padding: 1.5em 0;
+  }
+
+  /* line 111, ../sass/layouts/_00-layout.scss */
+  .padding-extra-sm {
+    padding: 3em 0;
+  }
+
+  /* line 115, ../sass/layouts/_00-layout.scss */
+  .spacing-sm {
+    margin: 2.25em 0;
+  }
+
+  /* line 119, ../sass/layouts/_00-layout.scss */
+  .spacing-extra-sm {
+    margin: 3em 0;
+  }
+
+  /* line 123, ../sass/layouts/_00-layout.scss */
+  .no-spacing-sm {
+    margin: 0;
+  }
+
+  /* line 128, ../sass/layouts/_00-layout.scss */
+  .layout,
+  .layout > .content {
+    *zoom: 1;
+  }
+  /* line 15, ../sass/mixins/_clearfix.scss */
+  .layout:before, .layout:after,
+  .layout > .content:before,
+  .layout > .content:after {
+    content: " ";
+    display: table;
+    line-height: 0;
+  }
+  /* line 21, ../sass/mixins/_clearfix.scss */
+  .layout:after,
+  .layout > .content:after {
+    clear: both;
+  }
+  /* line 131, ../sass/layouts/_00-layout.scss */
+  .layout > .col-sm-6,
+  .layout > .content > .col-sm-6 {
+    width: 48.57143%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 132, ../sass/layouts/_00-layout.scss */
+  .layout > .col-sm-6:nth-child(2n),
+  .layout > .content > .col-sm-6:nth-child(2n) {
+    float: right;
+    margin-right: 0;
+  }
+  /* line 137, ../sass/layouts/_00-layout.scss */
+  .layout > .col-sm-6 .col-sm-8,
+  .layout > .content > .col-sm-6 .col-sm-8 {
+    width: 64.70588%;
+    float: left;
+    margin-right: 5.88235%;
+  }
+  /* line 140, ../sass/layouts/_00-layout.scss */
+  .layout > .col-sm-6 .col-sm-4,
+  .layout > .content > .col-sm-6 .col-sm-4 {
+    width: 29.41176%;
+    float: left;
+    margin-right: 5.88235%;
+  }
+  /* line 145, ../sass/layouts/_00-layout.scss */
+  .layout > .col-sm-9,
+  .layout > .content > .col-sm-9 {
+    width: 74.28571%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 148, ../sass/layouts/_00-layout.scss */
+  .layout > .col-sm-3,
+  .layout > .content > .col-sm-3 {
+    width: 22.85714%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 151, ../sass/layouts/_00-layout.scss */
+  .layout > .col-sm-8,
+  .layout > .content > .col-sm-8 {
+    width: 65.71429%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 154, ../sass/layouts/_00-layout.scss */
+  .layout > .col-sm-4,
+  .layout > .content > .col-sm-4 {
+    width: 31.42857%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 157, ../sass/layouts/_00-layout.scss */
+  .layout > .col-sm-5,
+  .layout > .content > .col-sm-5 {
+    width: 40%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 160, ../sass/layouts/_00-layout.scss */
+  .layout > .col-sm-7,
+  .layout > .content > .col-sm-7 {
+    width: 57.14286%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 163, ../sass/layouts/_00-layout.scss */
+  .layout .col.last,
+  .layout > .content .col.last {
+    float: right;
+    margin-right: 0;
+  }
+
+  /* line 168, ../sass/layouts/_00-layout.scss */
+  .panel-2col-stacked .panel-col-middle.has-two-col .panel-panel {
+    width: 48.57143%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 170, ../sass/layouts/_00-layout.scss */
+  .panel-2col-stacked .panel-col-middle.has-two-col .panel-panel.panel-col-last {
+    float: right;
+    margin-right: 0;
+  }
+  /* line 174, ../sass/layouts/_00-layout.scss */
+  .pane-page-header .panel-2col-stacked .panel-col-middle.has-two-col .panel-panel, .pane-page-header .panel-2col-stacked .panel-col-middle.has-two-col .panel-panel.panel-panel {
+    float: none;
+    margin: 0;
+    width: 100%;
+  }
+
+  /* line 185, ../sass/layouts/_00-layout.scss */
+  .ds-2col-stacked-fluid .group-left,
+  .ds-2col-stacked-fluid .group-right {
+    width: 48.57143%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 189, ../sass/layouts/_00-layout.scss */
+  .ds-2col-stacked-fluid .group-right {
+    float: right;
+    margin-right: 0;
+  }
+}
+@media (min-width: 980px) {
+  /* line 196, ../sass/layouts/_00-layout.scss */
+  .padding-md {
+    padding: 1.5em 0;
+  }
+
+  /* line 200, ../sass/layouts/_00-layout.scss */
+  .padding-extra-md {
+    padding: 3em 0;
+  }
+
+  /* line 204, ../sass/layouts/_00-layout.scss */
+  .spacing-md {
+    margin: 2.25em 0;
+  }
+
+  /* line 208, ../sass/layouts/_00-layout.scss */
+  .spacing-extra-md {
+    margin: 3em 0;
+  }
+
+  /* line 212, ../sass/layouts/_00-layout.scss */
+  .no-spacing-md {
+    margin: 0;
+  }
+
+  /* line 216, ../sass/layouts/_00-layout.scss */
+  .entity-paragraphs-item .layout .col {
+    margin-bottom: 0;
+  }
+
+  /* line 221, ../sass/layouts/_00-layout.scss */
+  .layout > .col-md.last,
+  .layout > .content > .col-md.last {
+    float: right;
+    margin-right: 0;
+  }
+  /* line 224, ../sass/layouts/_00-layout.scss */
+  .layout > .col-md-3,
+  .layout > .content > .col-md-3 {
+    width: 22.85714%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 226, ../sass/layouts/_00-layout.scss */
+  .layout > .col-md-3.col-sm-6:nth-child(2n),
+  .layout > .content > .col-md-3.col-sm-6:nth-child(2n) {
+    width: 22.85714%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 228, ../sass/layouts/_00-layout.scss */
+  .layout > .col-md-3.col-sm-6:nth-child(2n).last,
+  .layout > .content > .col-md-3.col-sm-6:nth-child(2n).last {
+    float: right;
+    margin-right: 0;
+  }
+  /* line 233, ../sass/layouts/_00-layout.scss */
+  .layout > .col-md-4,
+  .layout > .content > .col-md-4 {
+    width: 31.42857%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 236, ../sass/layouts/_00-layout.scss */
+  .layout > .col-md-5,
+  .layout > .content > .col-md-5 {
+    width: 40%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 239, ../sass/layouts/_00-layout.scss */
+  .layout > .col-md-6,
+  .layout > .content > .col-md-6 {
+    width: 48.57143%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 242, ../sass/layouts/_00-layout.scss */
+  .layout > .col-md-7,
+  .layout > .content > .col-md-7 {
+    width: 57.14286%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 245, ../sass/layouts/_00-layout.scss */
+  .layout > .col-md-8,
+  .layout > .content > .col-md-8 {
+    width: 65.71429%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 248, ../sass/layouts/_00-layout.scss */
+  .layout > .col-md-9,
+  .layout > .content > .col-md-9 {
+    width: 74.28571%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 250, ../sass/layouts/_00-layout.scss */
+  .col-md-9 .layout > .col-md-9, .col-md-9
+  .layout > .content > .col-md-9 {
+    width: 65.38462%;
+    float: left;
+    margin-right: 3.84615%;
+  }
+  /* line 254, ../sass/layouts/_00-layout.scss */
+  .layout > .col.last,
+  .layout .col.last-md,
+  .layout > .content > .col.last,
+  .layout > .content .col.last-md {
+    float: right;
+    margin-right: 0;
+  }
+  /* line 259, ../sass/layouts/_00-layout.scss */
+  .layout.four-column .col-fourth,
+  .layout > .content.four-column .col-fourth {
+    margin-right: 0;
+  }
+
+  /* line 264, ../sass/layouts/_00-layout.scss */
+  .ds-3col-stacked-equal {
+    *zoom: 1;
+  }
+  /* line 15, ../sass/mixins/_clearfix.scss */
+  .ds-3col-stacked-equal:before, .ds-3col-stacked-equal:after {
+    content: " ";
+    display: table;
+    line-height: 0;
+  }
+  /* line 21, ../sass/mixins/_clearfix.scss */
+  .ds-3col-stacked-equal:after {
+    clear: both;
+  }
+  /* line 267, ../sass/layouts/_00-layout.scss */
+  .ds-3col-stacked-equal > .group-left,
+  .ds-3col-stacked-equal > .group-middle,
+  .ds-3col-stacked-equal > .group-right {
+    width: 31.42857%;
+    float: left;
+    margin-right: 2.85714%;
+    flex: 1 0 auto;
+  }
+  /* line 273, ../sass/layouts/_00-layout.scss */
+  .ds-3col-stacked-equal > .group-right {
+    float: right;
+    margin-right: 0;
+  }
+}
+@media (min-width: 1280px) {
+  /* line 282, ../sass/layouts/_00-layout.scss */
+  .layout > .col-wd-3,
+  .layout > .content > .col-wd-3 {
+    width: 22.85714%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 285, ../sass/layouts/_00-layout.scss */
+  .layout > .col-wd-4,
+  .layout > .content > .col-wd-4 {
+    width: 31.42857%;
+    float: left;
+    margin-right: 2.85714%;
+  }
+  /* line 288, ../sass/layouts/_00-layout.scss */
+  .layout > .col.last,
+  .layout > .content > .col.last {
+    float: right;
+    margin-right: 0;
+  }
+}
+@media (min-width: 1996.8px) {
+  /* line 294, ../sass/layouts/_00-layout.scss */
+  .l-container-wide {
+    max-width: 100%;
+  }
+}
+
+/*# sourceMappingURL=panels.layout.css.map */

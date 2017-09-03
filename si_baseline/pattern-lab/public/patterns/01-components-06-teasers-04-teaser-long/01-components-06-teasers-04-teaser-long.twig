@@ -1,0 +1,12 @@
+&lt;div class=&quot;node-teaser long&quot;&gt;
+    &lt;a href=&quot;{{ url }}&quot;&gt;
+		&lt;div class=&quot;field--type-image&quot;&gt;&lt;img src=&quot;{{ img.square.src }}&quot; alt=&quot;{{ img.square.alt }}&quot;/&gt;&lt;/div&gt;
+		&lt;div class=&quot;b-text&quot;&gt;
+            &lt;div class=&quot;preface&quot;&gt;{{ preface }}&lt;/div&gt;
+			&lt;h3 class=&quot;b-title&quot;&gt;{{ headline.short }}&lt;/h3&gt;
+			{% if t_text %}
+				&lt;p&gt;{{ excerpt.short }}&lt;/p&gt;
+			{% endif %}
+		&lt;/div&gt;
+	&lt;/a&gt;
+&lt;/div&gt;

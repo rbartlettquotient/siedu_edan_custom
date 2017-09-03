@@ -1,0 +1,6 @@
+name = SIEDU EDAN Customizations
+description = Modifications to EDAN and OGMT modulees, specific to SIEDU.
+core = 7.x
+package = Smithsonian
+dependencies[] = edan
+version = "7.x-1.0"

@@ -1,0 +1,61 @@
+name = SI Baseline
+description = Omega 4 based theme for SI.
+base theme = omega
+screenshot = screenshot.png
+engine = phptemplate
+core = 7.x
+
+; ========================================
+; Stylesheets
+; ========================================
+stylesheets[all][] = css/style.normalize.css
+stylesheets[all][] = css/style.css
+stylesheets[print][] = css/print.css
+
+; ========================================
+; Regions
+; ========================================
+regions[branding]       = Branding
+regions[header_preface_left] = Header Preface Left
+regions[header_preface_right] = Header Preface Right
+regions[header]     = Header
+regions[navigation]     = Navigation bar
+regions[highlighted]    = Highlighted
+regions[help]           = Help
+regions[content]        = Content
+regions[sidebar_first]  = First sidebar
+regions[sidebar_second] = Second sidebar
+regions[footer]         = Footer
+
+; Panel plugins
+plugins[panels][layouts] = panels/layouts
+
+; ========================================
+; Scripts
+; ========================================
+ ; scripts[] = js/jquery.matchHeight.js
+ scripts[] = js/luminateExtend.min.js
+ scripts[] = js/webtrends.js
+ scripts[] = js/modernizr-custom.min.js
+ scripts[] = 'js/ScrollMagic.min.js'
+ scripts[] = js/uisearch.js
+ scripts[] = js/si_baseline.behaviors.js
+; ========================================
+
+; ========================================
+; Breakpoints
+; ========================================
+breakpoints[tv] = only screen and (min-width: 3456px)
+breakpoints[wide3] = (min-width: 1920px)
+breakpoints[wide] = (min-width: 1380x)
+breakpoints[desktop] = (min-width: 980px)
+breakpoints[tab] = (min-width: 620px)
+breakpoints[mobile] = (min-width: 0px)
+
+multipliers[wide][] = 1.5x
+multipliers[tab][] = 1.5x
+
+
+; ========================================
+; Settings
+; ========================================

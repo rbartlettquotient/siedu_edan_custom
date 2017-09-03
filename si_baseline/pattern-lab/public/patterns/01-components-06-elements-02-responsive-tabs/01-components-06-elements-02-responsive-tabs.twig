@@ -1,0 +1,23 @@
+&lt;div class=&quot;si-tabs responsive-tab&quot; id=&quot;si-field-collection-tabs-2&quot;&gt;
+	&lt;ul&gt;
+		{% for tab in tabs %}
+			&lt;li tabmode=&quot;responsive_tab&quot; class=&quot;tab-title&quot;&gt;
+				&lt;a href=&quot;#tab-{{ loop.index }}&quot;&gt;
+					{{ tab.title }}
+				&lt;/a&gt;
+			&lt;/li&gt;
+		{% endfor %}
+	&lt;/ul&gt;
+	&lt;div class=&quot;tab-wrapper&quot;&gt;
+		{% for tab in tabs %}
+
+				&lt;div id=&quot;tab-{{ loop.index }}&quot; class=&quot;tab-pane&quot;&gt;
+					{{ tab.content }}
+				&lt;/div&gt;
+
+			&lt;/div&gt;
+		{% endfor %}
+	&lt;/div&gt;
+
+&lt;/div&gt;
+

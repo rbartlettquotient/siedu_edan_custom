@@ -1,0 +1,618 @@
+<?php
+
+/**
+ * @file siedu_edan_custom.module
+ * @version 1.0
+ *
+ */
+
+//-------- Mods for EDAN Record module. --------//
+/***
+ * Alter EDAN Record Admin Settings form
+ * @param $form
+ * @param $form_state
+ * @return mixed
+ * @see edan_record_form in module edan_record
+ */
+function siedu_edan_custom_form_edan_record_settings_form_alter(&$form, &$form_state) {
+
+  // Hide thumbnail, medium, large, constrain- stock edan record config fields.
+  $form['edan_image']['thumbnail']['#type'] = 'hidden';
+  $form['edan_image']['medium']['#type'] = 'hidden';
+  $form['edan_image']['large']['#type'] = 'hidden';
+  $form['edan_image']['constrain']['#type'] = 'hidden';
+  $form['show_within_site']['#weight'] = 100;
+  $form['actions']['#weight'] = 101;
+  $form['#validate'][] = 'siedu_edan_custom_edan_record_form_validate';
+  $form['#submit'][] = 'siedu_edan_custom_edan_record_form_submit';
+
+  // hpham: added settings for siedu_edan_image variables
+  $image = variable_get('siedu_edan_image', array());
+  $form['siedu_edan_image'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('SIEDU Custom Image Settings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#tree' => TRUE
+  );
+
+  $constrain = array(
+    'max_h' => t('Height'),
+    'max_w' => t('Width'),
+    'max' => t('Both')
+  );
+  $form['siedu_edan_image']['siedu_thumbnail'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => FALSE,
+    '#title' => t('Thumbnail'),
+    '#description' => t("Thumbnails are used for slideshow navigation.  Construct it as expected by IDS, max_w=, max_h=, max="),
+  );
+  $form['siedu_edan_image']['siedu_thumbnail']['size'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Size'),
+    '#default_value' => isset($image['siedu_thumbnail']['size']) ? $image['siedu_thumbnail']['size'] : '100',
+    '#description' => t("Thumbnails are used for slideshow navigation.  Construct it as expected by IDS, max_w=, max_h=, max="),
+  );
+  $form['siedu_edan_image']['siedu_thumbnail']['constrain'] = array(
+    '#type' => 'select',
+    '#title' => t('Constrain'),
+    '#options' => $constrain,
+    '#default_value' => isset($image['siedu_thumbnail']['constrain']) ? $image['siedu_siedu_thumbnail']['constrain'] : 'max',
+  );
+  $form['siedu_edan_image']['siedu_thumbnail']['size'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Size'),
+    '#default_value' => isset($image['siedu_thumbnail']['size']) ? $image['siedu_thumbnail']['size'] : '100',
+  );
+
+  $form['siedu_edan_image']['siedu_medium'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => FALSE,
+    '#title' => t('Medium'),
+    '#description' => t("Set the image size for images when appearing as part of the search results. Construct it as expected by IDS, max_w=, max_h=, max=."),
+  );
+  $form['siedu_edan_image']['siedu_medium']['constrain'] = array(
+    '#type' => 'select',
+    '#title' => t('Constrain'),
+    '#options' => $constrain,
+    '#default_value' => isset($image['siedu_medium']['constrain']) ? $image['siedu_medium']['constrain'] : 'max',
+  );
+  $form['siedu_edan_image']['siedu_medium']['size'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Size'),
+    '#default_value' => isset($image['siedu_medium']['size']) ? $image['siedu_medium']['size'] : '300',
+  );
+  $form['siedu_edan_image']['siedu_large'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => FALSE,
+    '#title' => t('Large'),
+    '#description' => t('Set the image size for the object page.'),
+  );
+  $form['siedu_edan_image']['siedu_large']['constrain'] = array(
+    '#type' => 'select',
+    '#title' => t('Constrain'),
+    '#options' => $constrain,
+    '#default_value' => isset($image['siedu_large']['constrain']) ? $image['siedu_large']['constrain'] : 'max',
+  );
+  $form['siedu_edan_image']['siedu_large']['size'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Size'),
+    '#default_value' => isset($image['siedu_large']['size']) ? $image['siedu_large']['size'] : '700',
+  );
+
+  return $form;
+}
+
+/***
+ * Custom validate function to handle the new fields we added in form_alter.
+ * @param $form
+ * @param $form_state
+ */
+function siedu_edan_custom_edan_record_form_validate($form, &$form_state) {
+  foreach ($form_state['values']['siedu_edan_image'] as $image => $value) {
+    if (is_numeric($value['size']) === FALSE) {
+      $error_elements = array('siedu_edan_image' , $image, 'size');
+      form_set_error(implode('][', $error_elements), t('Only numeric values are allowed'));
+    }
+  }
+}
+
+/***
+ * Custom submit handler to save our SIEDU-specific values.
+ * @param $form
+ * @param $form_state
+ */
+function siedu_edan_custom_edan_record_form_submit($form, &$form_state) {
+
+  // Build SIEDU custom settings from submission.
+  // ids, dynamic, thumbnail, medium, large, constrain
+  $siedu_image = $form_state['values']['siedu_edan_image'];
+  variable_set('siedu_edan_image', $siedu_image);
+
+}
+
+//-------- Mods for EDAN Search and Custom Search modules. --------//
+function siedu_edan_custom_edan_custom_search_results_alter(&$vars) {
+  $docs = $vars['docs'];
+  foreach($docs as $idx => $doc) {
+    $record_data = array_key_exists('record_data', $doc) ? $doc['record_data'] : NULL;
+    $record_title = array_key_exists('title', $doc) ? $doc['title'] : '';
+    if(strlen($record_title) > 0 && isset($record_data)) {
+      $record_images = siedu_edan_custom_get_media($record_data, $record_title);
+      $docs[$idx]['grouped_media'] = array_key_exists('grouped_media', $record_images) ? $record_images['grouped_media'] : array();
+      $docs[$idx]['siedu_media'] = array_key_exists('siedu_media', $record_images) ? $record_images['siedu_media'] : array();
+    }
+  }
+  $vars['docs'] = $docs;
+}
+
+function siedu_edan_custom_edan_search_results_alter(&$vars) {
+  $docs = $vars['docs'];
+  foreach($docs as $idx => $doc) {
+    $record_data = array_key_exists('record_data', $doc) ? $doc['record_data'] : NULL;
+    $record_title = array_key_exists('#title', $doc) ? $doc['#title'] : '';
+    if(strlen($record_title) > 0 && isset($record_data)) {
+      $record_images = siedu_edan_custom_get_media($record_data, $record_title);
+      $docs[$idx]['grouped_media'] = array_key_exists('grouped_media', $record_images) ? $record_images['grouped_media'] : array();
+      $docs[$idx]['siedu_media'] = array_key_exists('siedu_media', $record_images) ? $record_images['siedu_media'] : array();
+    }
+  }
+  $vars['docs'] = $docs;
+}
+
+function siedu_edan_custom_edan_search_fetch_results_alter($opts, &$docs) {
+
+
+}
+
+//-------- Mods for OGMT modules. --------//
+function siedu_edan_custom_ogmt_related_objectgroups_alter($raw_rows, &$rows) {
+
+  $rows = _edan_search_process_rows($raw_rows);
+  // See ogmt-object-groups-related-block.preprocess.inc
+
+}
+
+/**
+ * Renders a menu from a menu object
+ */
+function siedu_edan_custom_ogmt_build_menu_alter($object_group, &$all_menu, $css_class) {
+
+  $menu = siedu_edan_custom_ogmt_build_menu_array($object_group);
+  $all_menu = '';
+  // TODO: Use Theme API?
+  if (isset($menu['children'])) {
+    $all_menu = '<ul';
+    $all_menu .= isset($css_class) ? ' class="' . $css_class . '">' : '>';
+    foreach($menu['children'] as $item) {
+      $all_menu .= '<li ' . drupal_attributes($item['attributes']) . '><a href="'. $item['link'] .'" title="' .  $item['title'] . '">' . $item['title'] . '</a></li>';
+    }
+    $all_menu .='</ul>';
+  }
+}
+
+function siedu_edan_custom_ogmt_render_object_group_alter($object_group, $page, &$vars) {
+  $vars['#menu_array'] = siedu_edan_custom_ogmt_build_menu_array($object_group);
+
+  // @hpham101052017: set feature_image_url if content is available
+  if(empty($vars['#feature_image_url']) & strlen($vars['#content']) > 0) {
+    $args['rows'] = 2;
+    //dpm($newopts);
+    $args['facet'] = FALSE;
+    $features = _edan_search_execute_search($args, $newopt);
+    if ($features['numFound'] > 0) {
+      $image = '';
+      $docs = $features['items'];
+      $docs = _edan_search_process_rows($docs);
+      foreach($docs as $item) {
+        if(!empty($item['images'])) {
+          $image = current($item['images']);
+          break;
+        }
+      }
+      if(!empty($image)) {
+        $vars['#feature_image_url'] = isset($image['extended']['medium_size']) ? $image['extended']['medium_size'] : $image['content'];
+      }
+    }
+  }
+
+}
+
+
+/**
+ * Renders a menu from a menu object
+ */
+function siedu_edan_custom_ogmt_build_menu_array($object_group) {
+  $menu = &drupal_static(__FUNCTION__);
+  if (!isset($menu)) {
+    $menu = array();
+    if (is_array($object_group->objectGroupPages) || !empty($object_group->objectGroupPages)) {
+      // if the object group is embedded in a node, generate links accordingly
+      if (arg(0) != 'node') {
+        //$bp = base_path() . _ogmt_variable_get('menu_base_pages') . '/' . $object_group->uri . '/';
+        // get the object group type
+        //$og_types = _ogmt_variable_get('object_group_types');
+        //$og_type = isset($og_types[$object_group->groupType]) ? $og_types[$object_group->groupType] : '';
+        $og_type = _get_objectgrouptype_by_id($object_group->groupType);
+
+        // get the custom path for this objectgroup
+        $bp = _get_path_for_objectgroup(TRUE, $og_type, $object_group) . '/';
+        $bp2 = _get_path_for_objectgroup(TRUE, $og_type, $object_group);
+
+      }
+      else {
+        $q = filter_xss($_GET['q']);
+        $path = drupal_get_path_alias($q);
+        $bp = base_path() . $path . '?pageId=';
+        $bp2 = base_path() . $path;
+      }
+
+      $this_page_url = trim($GLOBALS['base_url'] . '/' . current_path());
+      $page_count = count($object_group->objectGroupPages);
+      $n = 1;
+      $parent_class = array('parent');
+      if ($bp2 == $this_page_url) {
+        $parent_class[] = 'active';
+        $parent_class[] = 'current';
+      }
+      $menu['parent'] = array(
+        'link' => $bp2,
+        'title' => _ogmt_get_list_title($object_group),
+        'attributes' => empty($parent_class) ? array() : array('class' => $parent_class)
+      );
+
+      foreach ($object_group->objectGroupPages as $page) {
+        $classes_array = array('page-' . $n, 'pagecount-' . $page_count);
+
+        $classes = '';
+        $n++;
+
+        if (isset($page->uri) && strlen($page->uri) > 0) {
+          $title = _ogmt_get_list_title($page);
+
+          // if this page's url matches the one we're viewing, set the "current" class
+          // also if the Object Group's url matches the one we're viewing, and this page is the default page, set "current"
+          if (((trim($bp . $page->uri)) == $this_page_url)
+            || ($bp2 == $this_page_url && $page->getPageId() == $object_group->defaultPageId)
+          ) {
+            $classes_array[] = 'current';
+            $classes_array[] = 'active';
+          }
+
+
+          if ($page->getPageId() == $object_group->defaultPageId) {
+            $classes_array[] = 'default';
+          }
+
+          $menu['children'][] = array(
+            'link' => $bp . $page->uri,
+            'title' => $title,
+            'attributes' => empty($classes_array) ? array() : array('class' => $classes_array)
+          );
+        }
+      }
+    }
+  }
+
+  return $menu;
+}
+
+//-------- Custom getMedia() function --------//
+/***
+ * Get an edanmdm record's images. Return an array with siedu_media and grouped_media.
+ *
+ * @return  array  The array of image media.
+ *
+ * Author Goran Halusa
+ */
+function siedu_edan_custom_get_media($edan_record_data, $title) {
+//hpham: pass si.edu urls through IDS and colorbox integration
+
+  if(NULL == $edan_record_data || empty($edan_record_data)) {
+    return array();
+  }
+  $items = $data = $media_array = array();
+  $thumbnail = '200';
+  $medium = '600';
+  $large = '980';
+  $siris_images_array = array(
+    'ViewCollection.gif',
+    'findingaid.gif',
+    'sound.gif',
+    'thbtrans.gif',
+    'dreference.jpg',
+    'dreference.gif',
+    'video-clip.gif',
+    'fulltext.gif'
+  );
+  $pdf_count = 1;
+
+  $video_types = array(
+    'mov',
+    'mp4',
+    'm4a',
+    'm4v',
+    'mpeg',
+    'avi'
+  );
+
+  $audio_types = array(
+    'ogg',
+    'mp3',
+    'wav',
+  );
+
+  $img_types = array(
+    'jpg',
+    'jpeg',
+    'png',
+    'gif',
+    'bmp'
+  );
+
+  $args = array(
+    'q' => '*:*',
+    'sort' => NULL,
+    'facet' => FALSE,
+    'rows' => 2,
+    'start' => 0,
+    'type' => NULL,
+    'fq' => array()
+  );
+
+
+  $image_settings = variable_get('siedu_edan_image', array());
+  if(empty($image_settings)) {
+    $out = '';
+    $out .= '<p><strong>Image Settings Empty</strong></p>' . "\n";
+    $out .= '<p>Go to the <a href="/admin/config/search/edan-record">EDAN Record Configuration page</a>, confirm settings and hit "Save".' . "\n";
+    echo $out;
+  }
+
+  $thumbsize = isset($image_settings['thumbnail']) ? $image_settings['thumbnail']['constrain'] .'='. $image_settings['thumbnail']['size']: 'max=100';
+  $medium = isset($image_settings['medium']) ? $image_settings['medium']['constrain'] .'='. $image_settings['medium']['size']: 'max=500';
+  $large = isset($image_settings['large']) ? $image_settings['large']['constrain'] .'='. $image_settings['large']['size']: 'max=980';
+  // get the array for this particular EDAN content type
+  switch ($edan_record_data['type']) {
+    //case 'concept': ??
+    case 'objectgroup':
+      if(isset($edan_record_data['content']['feature']['url'])) {
+        $media_array = array(0 => array('content' => $edan_record_data['content']['feature']['url'], 'type' => 'Images'));
+      }
+      elseif(isset($edan_record_data['feature_raw'])) {
+        $media_array = array(0 => array('content' => $edan_record_data['feature_raw']['url'], 'type' => 'Images'));
+      }
+      elseif(isset($edan_record_data['content']['feature']['thumbnail'])) {
+        $media_array = array(0 => array('content' => $edan_record_data['content']['feature']['thumbnail'], 'type' => 'Images'));
+      }
+      // @hpham11212016:  add image from objects if no image provided for objectgroup
+      else {
+        $unit_code = $edan_record_data['unitCode'];
+        $args['objectGroupId'] = $edan_record_data['id'];
+        $args['unitCode'] = _get_applicationId_from_unitCode($unit_code);
+
+        $ogmt_items =  empty($args['unitCode']) ? array() : _edan_search_execute_search($args);
+        if ($ogmt_items['numFound'] > 0) {
+          $ogmt_items = $ogmt_items['rows'];
+
+          foreach($ogmt_items as $ogmt) {
+            if(isset($ogmt['content']['descriptiveNonRepeating']['online_media']['media'])) {
+              $media_array = $ogmt['content']['descriptiveNonRepeating']['online_media']['media'];
+              break;
+            }
+          }
+
+        }
+      }
+      break;
+
+    case '3d_model':
+    case '3d_tour':
+    case 'ecr':
+    case 'event':
+    case 'location':
+    case 'si-unit':
+      //@todo temp
+      $media_array = isset($edan_record_data['content']['online_media']) ? $edan_record_data['content']['online_media'] : array();
+      break;
+    //added by hpham, 1/3/2017 to provide default
+    default:
+      $media_array = isset($edan_record_data['content']['descriptiveNonRepeating']['online_media']['media'])
+        ? $edan_record_data['content']['descriptiveNonRepeating']['online_media']['media'] : array();
+      break;
+  }
+
+  if(!empty($media_array)) {
+    //foreach($edan_record_data['content']['descriptiveNonRepeating']['online_media']['media'] as $key => $media) {
+    foreach($media_array as $delta => $media) {
+
+      $id = 'media-'. rand();
+      $url = isset($media['content']) ? $media['content'] : '';
+
+      if (!empty($url)) {
+        if (isset($media['thumbnail'])) {
+          // Ignore Siris placeholder images.
+          foreach ($siris_images_array as $ignore) {
+            if(strpos(($media['thumbnail']), $ignore) !== FALSE) {
+              unset($media['thumbnail']);
+              break;
+            }
+          }
+        }
+
+        //   if ($response['status'] == TRUE) {
+        $item = array();
+        $record_title = $title;
+        $media['record_title'] = htmlspecialchars($record_title);
+        $media['record_date'] = isset($edan_record_data['content']['freetext']['date']) &&!empty($edan_record_data['content']['freetext']['date']) ?
+          $edan_record_data['content']['freetext']['date']['0']['content'] : '';
+
+
+        if (isset($media['extended'])) {
+          if ($edan_record_data['type'] == 'location' && !empty($media['extended']['description'])) {
+            $media_type = stristr($media['extended']['description'], 'image') ? $media['extended']['type'] : $media['extended']['description'];
+          }
+          else {
+            $media_type = isset($media['extended']['type']) ? $media['extended']['type'] : 'other';
+          }
+        }
+        else {
+          $media_type = isset($media['type']) ? $media['type'] : 'other';
+        }
+
+        $media_type = trim(preg_replace('/\s|-/', '_', $media_type));
+        $media_type = strtolower($media_type);
+        $media_type = $media_type == 'floor_plan' ? 'floorplan' : $media_type;
+        if ($media_type !== 'images' || $media_type !== 'icon' || $media_type !== 'floorplan') {
+          $ext = strtolower(pathinfo($media['content'], PATHINFO_EXTENSION));
+          $media_type = in_array($ext, $video_types) || stristr($media['content'], 'youtube') || stristr($media['content'], 'youtu.be') || stristr($media['content'], 'vimeo') ? 'video' :$media_type;
+          $media_type = in_array($ext, $audio_types) ? 'audio' : $media_type;
+          if($ext == 'pdf') {
+            $media['pdf_file_title'] = 'View PDF #' . $pdf_count;
+            $pdf_count++;
+            $media_type = 'pdf';
+          }
+        }
+        foreach ($media as $key => $value) {
+          if ($key == 'content' || $key == 'extended') {
+            $item[$key] = $value;
+          }
+          else {
+            if ($key == 'type') {
+              $item['extended']['original_type'] = $value;
+              $value = $media_type;
+            }
+            $item['extended'][$key] = $value;
+
+          }
+        }
+        $alt_field = isset($edan_record_data['content'][$media_type .'_alt']) ? $media_type .'_alt' : 'image_alt';
+        $item['extended']['alt_text'] =  isset($edan_record_data['content'][$alt_field]) ? $edan_record_data['content'][$alt_field] : $media_type .' for '. $media['record_title'];
+        $item['extended']['media_type'] = $media_type;
+
+        //@hpham11032016: see above comment
+        // $item['extended']['header_info'] = $response['headers'];
+        $item['extended']['idsData'] = $media_type !== 'slideshowxml' ? siedu_edan_custom_get_ids($media, $media_type) : array();
+        if(!empty($item['extended']['idsData']) && strlen($item['extended']['idsData']['idsID']) > 0) {
+          $data['all_image_ids'][$key] = $item['extended']['idsData']['idsID'];
+          $idsLink = !empty($item['extended']['idsData']['options']['query']) ?
+            url($item['extended']['idsData']['idsURL'], $item['extended']['idsData']['options']) :
+            $item['extended']['idsData']['idsURL'] .'?';
+          $item['extended']['thumbnail'] = $idsLink . 'id='. $item['extended']['idsData']['idsID'] .'&' .$thumbsize;
+          $item['extended']['medium_size'] = $idsLink . 'id='. $item['extended']['idsData']['idsID'] .'&' .$medium;
+          $item['extended']['regular_size'] = $idsLink . 'id='. $item['extended']['idsData']['idsID'];
+          $item['extended']['full_size'] = $idsLink . 'id='. $item['extended']['idsData']['idsID'] .'&' .$large;
+
+        }
+        else {
+          if($media_type == 'images' || $media_type == 'icon') {
+            $item['extended']['thumbnail'] = $item['extended']['medium_size'] = $item['extended']['regular_size'] = $item['extended']['full_size'] = $item['content'];
+          }
+          elseif(isset($media['thumbnail'])) {
+            $item['extended']['thumbnail'] = $item['extended']['medium_size'] = $item['extended']['regular_size'] = $item['extended']['full_size'] = $media['thumbnail'];
+          }
+          else {
+            $item['extended']['thumbnail'] = $item['extended']['medium_size'] = $item['extended']['regular_size'] = $item['extended']['full_size'] = '';
+          }
+
+        }
+
+        if (isset($media['thumbnail']) && !in_array($media_type, array('images', 'icon', 'video'))) {
+          $ext = strtolower(pathinfo($media['thumbnail'], PATHINFO_EXTENSION));
+          if(in_array($ext, $img_types)) {
+            $thumbnail = array(
+              'content' => $media['thumbnail'],
+              'extended' => $item['extended']
+            );
+            $thumbnail['extended']['alt_text'] = 'image for '. $media['record_title'];
+            if(!empty($item['extended']['idsData']) && strlen($item['extended']['idsData']['idsID']) > 0) {
+              $idsLink = !empty($item['extended']['idsData']['options']['query']) ?
+                url($item['extended']['idsData']['idsURL'], $item['extended']['idsData']['options']) :
+                $item['extended']['idsData']['idsURL'] .'?';
+              $thumbnail['extended']['extended']['thumbnail'] = $idsLink . 'id='. $item['extended']['idsData']['idsID'] .'&' .$thumbsize;
+              $thumbnail['extended']['medium_size'] =$idsLink . 'id='. $item['extended']['idsData']['idsID'] .'&' .$medium;
+              $thumbnail['extended']['regular_size'] =$idsLink . 'id='. $item['extended']['idsData']['idsID'];
+              $thumbnail['extended']['full_size'] = $idsLink . 'id='. $item['extended']['idsData']['idsID'] .'&' .$large;
+
+            }
+            else {
+              $thumbnail['extended']['thumbnail'] = $thumbnail['extended']['medium_size'] = $thumbnail['extended']['regular_size'] = $thumbnail['extended']['full_size'] = $thumbnail['content'];
+            }
+
+            $items['grouped_media']['images'][] = $thumbnail;
+          }
+
+        }
+
+        $items['siedu_media'][$id] = $item;
+        $items['grouped_media'][$media_type][$id] = $item;
+
+        //}
+      }
+
+    }
+  }
+  return $items;
+}
+
+/***
+ * Get an array of IDS data for media.
+ * @param $media
+ * @param $media_type
+ * @return array
+ */
+function siedu_edan_custom_get_ids($media, $media_type) {
+
+  $idsData = array();
+  $ids_url = 'https://ids.si.edu/ids/deliveryService';
+  $ids_dynamic = 'https://ids.si.edu/ids/dynamic';
+  $url =  $media_type == 'images' || $media_type == 'icon' ? $media['content'] : (isset($media['thumbnail']) ? $media['thumbnail'] : '');
+  $constrains = array(
+    'max',
+    'max_h',
+    'max_w'
+  );
+  if (!empty($url)) {
+    $link = drupal_parse_url($url);
+    $query = isset($link['query']) ? $link['query'] : array();
+    foreach($query as $key => $value) {
+      if(strstr($key, 'max')) {
+        unset($query[$key]);
+      }
+      if($key === 'irn') {
+        unset($query[$key]);
+      }
+    }
+    $parsed = isset($link['path']) ? parse_url($link['path']) : array();
+
+    //in case there's no idsId but the url has the ids link in it
+    if(isset($query['id']) && !isset($media['idsId']) && strstr($parsed['host'], 'ids.si.edu')) {
+      $media['idsId'] =  $query['id'];
+    }
+    //  $idsID = isset($media['idsId']) ? $media['idsId'] : (strstr($link['path'], 'si.edu') && strstr($url, 'map.gif') == FALSE ? $link['path'] : '');
+
+    if (isset($media['idsId'])) {
+      $idsID = str_replace('/192X192', '', $media['idsId']);
+      // unset the id and constrain keys if it's part of the query array
+      if (!empty($query)) {
+        if(isset($query['id'])) {
+          unset($query['id']);
+        }
+      }
+      $idsData = array(
+        'idsURL' => $ids_url,
+        'idsID' => $idsID,
+        'options' => array(
+          'query' => $query,
+          'fragment' => $link['fragment']
+        ),
+        'idsDynamic' => $ids_dynamic .'?id=' . $idsID .'&container.fullpage',
+      );
+
+
+    }
+  }
+  return $idsData;
+
+}
+

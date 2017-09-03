@@ -1,0 +1,23 @@
+<div class="page" id="page">
+    <header class="header cf" role="banner">
+        <div class="l-header-preface-wrapper">
+            <div class="l-container">
+                {% block preface_right %}{% endblock %}
+                <div class="l-region l-region--header-preface-right">
+                    <div class="block">
+                        <a href="{{ url }}" class="btn blue">Donate</a>
+                    </div>
+                    {% include "components-search" %}
+                </div>
+
+            </div>
+        </div>
+        {% include "regions-header" %}
+    </header>
+    <div role="main">
+        {% block hero %}{% endblock %}
+        {% block title %}{% endblock %}
+        {% block content %}{% endblock %}
+    </div><!--End role=main-->
+    {% include "regions-footer" %}
+</div>
